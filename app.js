@@ -21,7 +21,7 @@ console.log('Last scan: ' + db.last_check);
 console.log('Current time: '+ db.current_time + ' seconds');
 
 var total_count = 0;
-get_song_count(config.song_id, db.last_check, 0, function(is_last_page, count) {
+get_song_count(config.user, config.song_id, db.last_check, 1, function(is_last_page, count) {
   total_count += count;
 
   if(is_last_page) {
@@ -42,9 +42,9 @@ function render_template(data) {
   fs.writeFileSync('index.html', template);
 }
 
-function get_song_count(song_id, last_check, current_page, cb) {
+function get_song_count(user, song_id, last_check, current_page, cb) {
   lastfm.request('user.getRecentTracks', {
-      user: 'gnorks',
+      user: user,
       from: db.last_check,
       page: current_page,
       limit: 200,
@@ -70,7 +70,7 @@ function get_song_count(song_id, last_check, current_page, cb) {
             cb(current_page == pages, count);
 
             if(current_page != pages) {
-              get_song_count(song_id, last_check, current_page + 1, cb);
+              get_song_count(user, song_id, last_check, current_page + 1, cb);
             }
           }
       }

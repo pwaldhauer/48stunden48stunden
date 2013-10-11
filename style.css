@@ -33,6 +33,7 @@ body {
 .progress {
     width: 100%;
     height: 25px;
+    overflow-x: hidden;
 }
 
 .progress-inner {
